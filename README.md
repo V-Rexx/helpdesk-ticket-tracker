@@ -116,7 +116,5 @@ Those are the fields the list page filters on most: agents filter by status, use
 Express 5 passes errors thrown inside async routes to the central error handler in `app.js`, which turns Mongoose validation errors into 400s and anything unexpected into a 500 without leaking details.
 
 ## Possible next steps
-
-- Deploy (MongoDB Atlas + Render for the API + Vercel/Netlify for the client)
 - Rate-limit the login route
 - Email notification when a ticket is resolved
