@@ -1,7 +1,9 @@
-// One small helper for every API call: adds the token and turns errors into exceptions.
+const API_URL = import.meta.env.VITE_API_URL || "";
+
+
 export async function api(path, { method = "GET", body } = {}) {
   const token = localStorage.getItem("token");
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_URL}/api${path}`, {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +15,6 @@ export async function api(path, { method = "GET", body } = {}) {
   const data = await res.json().catch(() => ({}));
 
   if (res.status === 401 && token) {
-    // Token expired or invalid: log out and go to the login page.
     localStorage.removeItem("token");
     window.location.href = "/login";
   }
