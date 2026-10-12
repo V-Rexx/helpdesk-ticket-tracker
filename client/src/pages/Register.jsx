@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import { btn, errorBox, link } from "../ui";
+import AuthLayout from "./AuthLayout";
 
 export default function Register() {
   const { register } = useAuth();
@@ -24,20 +26,24 @@ export default function Register() {
   }
 
   return (
-    <form className="card narrow" onSubmit={handleSubmit}>
-      <h1>Create account</h1>
-      {error && <p className="error">{error}</p>}
-      <label>Name
-        <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-      </label>
-      <label>Email
-        <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-      </label>
-      <label>Password (min 6 characters)
-        <input type="password" required minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
-      </label>
-      <button className="btn" disabled={busy}>{busy ? "Creating…" : "Register"}</button>
-      <p className="muted">Already registered? <Link to="/login">Log in</Link></p>
-    </form>
+    <AuthLayout
+      title="Create your account"
+      subtitle="Raise and track support requests in one place"
+      footer={<>Already registered? <Link to="/login" className={link}>Log in</Link></>}
+    >
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        {error && <p className={errorBox}>{error}</p>}
+        <label>Full name
+          <input required autoComplete="name" placeholder="Jane Doe" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+        </label>
+        <label>Email
+          <input type="email" required autoComplete="email" placeholder="you@company.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+        </label>
+        <label>Password
+          <input type="password" required minLength={6} autoComplete="new-password" placeholder="At least 6 characters" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+        </label>
+        <button className={`${btn} h-10 w-full`} disabled={busy}>{busy ? "Creating account…" : "Create account"}</button>
+      </form>
+    </AuthLayout>
   );
 }
